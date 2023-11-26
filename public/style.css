@@ -1,0 +1,44 @@
+.app {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-y: hidden;
+    display: flex;
+    gap: 100px;
+    /* flex-wrap: wrap; */
+}
+
+/* Add recipe form */
+.addRecipe {
+    max-width: 400px;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.addRecipe form {
+    padding: 15px;
+}
+
+.addRecipe form .group label,
+.addRecipe form .group input,
+.addRecipe form .group select {
+    display: block;
+}
+
+.filters, .hits {
+    display: inline-block;
+}
+
+.hits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.hit {
+    width: calc(33% -  1rem);
+}
+
+.hitImageContainer {
+    background-size: cover;
+    height: 150px;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe search</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <input type="text" class="search-input" />
+    <div class="addRecipe">
+        <form>
+          <div class="group">
+            <label for="">title</label>
+            <input type="text" id="title">
+          </div>
+          <div class="group">
+            <label for="">cuisine</label>
+            <input type="text" id="cuisine">
+          </div>
+          <div class="group">
+            <label for="">ingredients (separate with a comma)</label>
+            <input type="text" id="ingredients">
+          </div>
+          <div class="group">
+            <label for="mainCarb">Main carb</label>
+            <input type="text" id="mainCarb">
+          </div>
+          <div class="group">
+            <label for="url">URL</label>
+            <input type="text" id="url">
+          </div>
+          <div class="group">
+            <label for="image">image</label>
+            <input type="text" id="image">
+          </div>
+          <div class="group">
+            <label for="url">time</label>
+            <select name="" id="time">
+              <option value="Quick">Quick</option>
+              <option value="Quick">Medium</option>
+              <option value="Quick">Long</option>
+            </select>
+            </div>
+            <button type="submit" class="submit">Submit</button>
+        </form>
+        <div class="status">
+
+        </div>
+    </div>
+    <main>
+        <div class="app">
+            <div class="sidebar">
+              <button class="reset">Reset filters</button>
+              <div class="filters">
+
+              </div>
+            </div>
+            <div class="hits"></div>
+        </div>
+    </main>
+    <script src="/script.js"></script>
+  </body>
+</html>
