@@ -5,14 +5,16 @@ const resetButton = document.querySelector('.reset');
 const submitButton = document.querySelector('.submit');
 const form = document.querySelector('form');
 const statusMessage = document.querySelector('.status');
+const pagination = document.querySelector('.pagination');
+const toggleFormBtn = document.querySelector('.toggleForm');
 
-// Global variables
+// GLOBAL VARIABLES (SEARCH STATE MANAGEMENT)
 let q = '';
 let filter = ''
+let page = 0;
 let selectedFilters = [];
 
-// Rendering results
-
+// RENDER UI
 const renderResults = (hits) => {
   const transformedHits = hits.map(el => {
     return `
@@ -69,8 +71,19 @@ const renderFilters = (filters, type) => {
   return html;
 }
 
-// MAKING THE SEARCH REQUEST AND RENDERING HTML 
+const renderPagination = (pageData) => {
+    const numberOfPages = pageData.numPages;
+    let html = '';
+    for(let i = 0; i < numberOfPages; i++) {
+        html += `<button class="paginationBtn" id=${i}>${i}</button>`
+    }
+    return html;
+}
+
+// HANDLE SEARCH REQUEST
 const handleQuery = async() => { 
+
+  //1. Retrieve search response
   const response = await fetch(`http://localhost:3000/search`, {
     method: 'POST',
     headers: {
@@ -79,6 +92,7 @@ const handleQuery = async() => {
     body: JSON.stringify({
         query: q || '',
         filters: filter,
+        page: page,
         facets: [ 
             'cuisine',
             'mainCarb',
@@ -89,37 +103,57 @@ const handleQuery = async() => {
   });
   const data = await response.json();
 
-  // CREATE HTML
+  // 2. Create html
   const recipesHTML = renderResults(data.hits);
   const cuisineFiltersHTML = renderFilters(data.facets.cuisine, 'cuisine');
   const carbFiltersHTML = renderFilters(data.facets.mainCarb, 'mainCarb');
   const ingredientsFiltersHTML = renderFilters(data.facets.primaryIngredients, 'primaryIngredients');
-  
-  // INJECTHTML
+  const paginationHTML = renderPagination(data.pageData);
+
+
+  // Inject html
   searchResultsContainer.innerHTML = recipesHTML;
   filterContainer.innerHTML = cuisineFiltersHTML;
   filterContainer.innerHTML += carbFiltersHTML;
   filterContainer.innerHTML += ingredientsFiltersHTML;
-
-  return;
+  pagination.innerHTML = paginationHTML;
 };
 
 
+// UPDATE SEARCH PARAMETERS
 const updateQuery = (e) => {
   q = e.target.value;
+  handleQuery();
+}
+
+const navigatePage = (e) => {
+  page = 1;
+  handleQuery();
+}
+
+const resetFilters = () => {
+  filter = '';
+  selectedFilters = [];
+  handleQuery();
+}
+
+const handlePagination = (e) => {
+  if(e.target.classList.contains('paginationBtn')) {
+    page = e.target.id * 1;
+  }
   handleQuery();
 }
 
 const updateFilter = (e) => {
   if(e.target.classList.contains('filterCheckbox')) {
     
-    // Get filter data
+    // 1. Get filter data
     const activeFilter = `${e.target.dataset.filterType}:'${e.target.id}'`;
 
-    // Add filters to active Filters (this is used for state management of selected checkboxes)
+    // 2. Add filters to active Filters (this is used for state management of selected checkboxes)
     selectedFilters.push(e.target.id);
     
-    // Set global filter
+    // 3. Set global filter
     if(filter === '') {
       filter = activeFilter;
     } else {
@@ -130,16 +164,12 @@ const updateFilter = (e) => {
   } else return;
 }
 
-const resetFilters = () => {
-  filter = '';
-  selectedFilters = [];
-  handleQuery();
-}
-
 
 // INDEXING NEW RECIPES
 const addRecipe = async(e) => {
+
   e.preventDefault();
+  
   const newRecipeObject = {
     objectID: Date.now(),
     title: form.elements[0].value,
@@ -159,25 +189,29 @@ const addRecipe = async(e) => {
         newRecipeObject
   })
   });
+
   data = await response.json();
-  console.log(data);
 
   // Update DOM based on response
   if(data.status === 'success') {
     statusMessage.innerHTML = `Successfully indexed recipe: ${data.recipeName}`
   } else if(data.status === 'error') {
     statusMessage.innerHTML = 'Failed to add recipe, contact the developer'
-  } else {
-    console.log('nothing happening');
   }
-
 }
 
 
-// Event listeners
+// // UI ONLY EVENTS
+// const handleToggleFormClick = () => {
+  
+// }
+
+// EVENT LISTENERS
 searchBar.addEventListener("input", updateQuery);
 document.addEventListener('DOMContentLoaded', handleQuery);
 filterContainer.addEventListener('click', updateFilter);
 resetButton.addEventListener('click', resetFilters);
 submitButton.addEventListener('click', addRecipe);
+pagination.addEventListener('click', handlePagination);
+toggleFormBtn.addEventListener('click', () => document.querySelector('form').classList.add('open'));
 

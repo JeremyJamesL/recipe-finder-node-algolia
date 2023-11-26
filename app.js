@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Algolia
 const algoliasearch = require('algoliasearch');
-const client = algoliasearch('YSWWVAX5RB', process.env.ALGOLIA_SECRET_KEY);
+const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SECRET_KEY);
 const index = client.initIndex('personalRecipes');
 
 // Middleware
@@ -17,11 +17,17 @@ app.use(bodyParser.json());
 app.post('/search', (req, res) => {
     index.search(req.body.query, {
         facets: req.body.facets.map(el => {return el}),
-        filters: req.body.filters
+        filters: req.body.filters,
+        page: req.body.page
     }).then((data) => {
         res.send({
             hits: data.hits,
-            facets: data.facets
+            facets: data.facets,
+            pageData: {
+                page: data.page,
+                hitsPerPage: data.hitsPerPage,
+                numPages: data.nbPages
+            } 
         });
     })
 })

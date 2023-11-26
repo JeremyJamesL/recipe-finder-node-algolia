@@ -1,22 +1,87 @@
+:root {
+    --color-primary: #202020;
+    --color-highlight: #f69421;
+    --container-width: 90rem;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: "Nunito", sans-serif
+}
+
 .app {
-    max-width: 1200px;
+    max-width: var(--container-width);
     margin: 0 auto;
     overflow-y: hidden;
     display: flex;
     gap: 100px;
-    /* flex-wrap: wrap; */
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+
+/* Header */
+.header {
+    background-color: var(--color-primary);
+    min-height: 10rem;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+}
+
+.header-inner {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    color: #fff;
+    margin-bottom: 1.6rem;
+}
+
+.search-input {
+    height: 5rem;
+    padding: 1.5rem;
+    font-size: 2rem;
+    width: 100%;
+    text-align: center;
+}
+
+.toggleForm {
+    font-size: 4rem;
+    color: #fff;
+    font-weight: 600;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    cursor: pointer;
 }
 
 /* Add recipe form */
 .addRecipe {
     max-width: 400px;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     border-radius: 20px;
 }
 
 .addRecipe form {
+    display: none;
     padding: 15px;
 }
+
+.addRecipe form.open {
+    display: block;
+}
+
 
 .addRecipe form .group label,
 .addRecipe form .group input,
