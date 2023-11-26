@@ -4,9 +4,11 @@ const filterContainer = document.querySelector('.filters');
 const resetButton = document.querySelector('.reset');
 const submitButton = document.querySelector('.submit');
 const form = document.querySelector('form');
+const formContainer = document.querySelector('.addRecipe');
 const statusMessage = document.querySelector('.status');
 const pagination = document.querySelector('.pagination');
 const toggleFormBtn = document.querySelector('.toggleForm');
+const untoggleFormBtn = document.querySelector('.close');
 
 // GLOBAL VARIABLES (SEARCH STATE MANAGEMENT)
 let q = '';
@@ -28,7 +30,7 @@ const renderResults = (hits) => {
     `
   });
 
-  return transformedHits;
+  return transformedHits.join('');
 }
 
 const renderFilters = (filters, type) => {
@@ -111,14 +113,13 @@ const handleQuery = async() => {
   const paginationHTML = renderPagination(data.pageData);
 
 
-  // Inject html
+  // 3. Inject html
   searchResultsContainer.innerHTML = recipesHTML;
   filterContainer.innerHTML = cuisineFiltersHTML;
   filterContainer.innerHTML += carbFiltersHTML;
   filterContainer.innerHTML += ingredientsFiltersHTML;
   pagination.innerHTML = paginationHTML;
 };
-
 
 // UPDATE SEARCH PARAMETERS
 const updateQuery = (e) => {
@@ -164,7 +165,6 @@ const updateFilter = (e) => {
   } else return;
 }
 
-
 // INDEXING NEW RECIPES
 const addRecipe = async(e) => {
 
@@ -194,17 +194,11 @@ const addRecipe = async(e) => {
 
   // Update DOM based on response
   if(data.status === 'success') {
-    statusMessage.innerHTML = `Successfully indexed recipe: ${data.recipeName}`
+    statusMessage.innerHTML = `<span class="message-success">Successfully indexed recipe: ${data.recipeName}</span>`
   } else if(data.status === 'error') {
-    statusMessage.innerHTML = 'Failed to add recipe, contact the developer'
+    statusMessage.innerHTML = '<span class="message-error">Failed to add recipe, contact the developer</span>'
   }
 }
-
-
-// // UI ONLY EVENTS
-// const handleToggleFormClick = () => {
-  
-// }
 
 // EVENT LISTENERS
 searchBar.addEventListener("input", updateQuery);
@@ -213,5 +207,15 @@ filterContainer.addEventListener('click', updateFilter);
 resetButton.addEventListener('click', resetFilters);
 submitButton.addEventListener('click', addRecipe);
 pagination.addEventListener('click', handlePagination);
-toggleFormBtn.addEventListener('click', () => document.querySelector('form').classList.add('open'));
+toggleFormBtn.addEventListener('click', () => { 
+  if(formContainer.classList.contains('close')) {
+    formContainer.classList.remove('close');
+  }
+  formContainer.classList.add('open')
+});
+untoggleFormBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  formContainer.classList.remove('open');
+  formContainer.classList.add('close');
+});
 

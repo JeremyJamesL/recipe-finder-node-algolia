@@ -17,6 +17,10 @@ html {
     font-family: "Nunito", sans-serif
 }
 
+body {
+    font-size: 1.6rem;
+}
+
 .app {
     max-width: var(--container-width);
     margin: 0 auto;
@@ -68,42 +72,112 @@ html {
 
 /* Add recipe form */
 .addRecipe {
-    max-width: 400px;
-    /* border: 2px solid black; */
-    border-radius: 20px;
+    display: none;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(5px);
+    background-color: #202020;
+    opacity: .95;
+}
+
+.addRecipe.open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.addRecipe.close {
+    display: none;
 }
 
 .addRecipe form {
-    display: none;
     padding: 15px;
+    width: 40rem;
 }
 
-.addRecipe form.open {
+.addRecipe form .group:not(:last-child) {
+    margin-bottom: 1.5rem;
+}
+
+/* .addRecipe form.open {
     display: block;
-}
+} */
 
-
-.addRecipe form .group label,
 .addRecipe form .group input,
 .addRecipe form .group select {
     display: block;
+    width: 100%;
+    height: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
+.addRecipe form .group label {
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+}
+
+.addRecipe form button {
+    /* background-color: var(--color-highlight); */
+    color: #fff;
+    padding: 1.5rem;
+    border: none;
+    font-weight: 800;
+}
+
+.addRecipe form button.submit {
+    background-color: var(--color-highlight);
+}
+
+.addRecipe form button.close {
+    background-color: black;
+}
+
+.addRecipe .status {
+    display: block;
+    color: #fff;
+}
+
+.addRecipe .message-success {
+    background-color: green;
+    color: #fff;
+}
+
+.addRecipe .message-error {
+    background-color: red;
+    color: #fff;
+}
+
+/* Sidebar w/ filters */
 .filters, .hits {
     display: inline-block;
 }
 
-.hits {
+/* Results and pagination*/
+
+.primary {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.hits {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* grid-template-rows: auto; */
     gap: 1rem;
 }
 
 .hit {
-    width: calc(33% -  1rem);
+    /* width: calc(33% -  1rem); */
 }
 
 .hitImageContainer {
     background-size: cover;
-    height: 150px;
+    background-position: center center;
+    height: 200px;
 }
