@@ -18,7 +18,8 @@ app.post('/search', (req, res) => {
     index.search(req.body.query, {
         facets: req.body.facets.map(el => {return el}),
         filters: req.body.filters,
-        page: req.body.page
+        page: req.body.page,
+        hitsPerPage: 10
     }).then((data) => {
         res.send({
             hits: data.hits,

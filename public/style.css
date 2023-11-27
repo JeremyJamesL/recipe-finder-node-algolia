@@ -1,7 +1,8 @@
 :root {
     --color-primary: #202020;
     --color-highlight: #f69421;
-    --container-width: 90rem;
+    --color-highlight-less: rgb(243, 188, 124);
+    --container-width: 120rem;
 }
 
 *,
@@ -27,8 +28,16 @@ body {
     overflow-y: hidden;
     display: flex;
     gap: 100px;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 5.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+@media screen and (max-width: 600px) {
+    .app {
+        flex-direction: column;
+    }
 }
 
 
@@ -154,8 +163,42 @@ body {
 }
 
 /* Sidebar w/ filters */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+}
 .filters, .hits {
     display: inline-block;
+}
+
+.filters h2 {
+    margin-bottom: .5rem;
+}
+
+.filters ul {
+    margin-bottom: 2rem;
+    list-style: none;
+}
+
+.filters .count {
+    padding: 0.1rem 0.4rem;
+    font-size: 1.2rem;
+    color: #3a4570;
+    background-color: #dfe2ee;
+    border-radius: 8px;
+    margin-left: 5px;
+}
+
+
+.reset {
+    background-color: var(--color-highlight);
+    padding: 1rem;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    margin-bottom: 3rem;
+    cursor: pointer;
 }
 
 /* Results and pagination*/
@@ -172,12 +215,77 @@ body {
     gap: 1rem;
 }
 
+@media screen and (max-width: 800px) {
+    .hits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .hits {
+        grid-template-columns: 1fr;
+    }
+}
+
 .hit {
-    /* width: calc(33% -  1rem); */
+    border-radius: 10px;
+    border: 1px solid #c4c8d8;
+    box-shadow: 0 2px 5px 0px #e3e5ec;
+}
+
+.hit h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.hitBody {
+    padding: 1.5rem 1.5rem 2rem;
 }
 
 .hitImageContainer {
     background-size: cover;
-    background-position: center center;
-    height: 200px;
+    background-position: 50%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.time {
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 2rem;
+}
+
+.ingredients {
+    font-style: italic;
+    font-size: 1.5rem;
+}
+
+/* Pagination */ 
+
+.pagination {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.paginationBtn {
+    background-color: var(--color-highlight-less);
+    border: none;
+    font-size: 1.4rem;
+    color: #fff;
+    font-weight: 500;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.paginationBtn.active {
+    background-color: var(--color-highlight);
+}
+
+.paginationBtn:not(:last-child) {
+    margin-right: 5px;
 }

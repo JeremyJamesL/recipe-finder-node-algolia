@@ -23,9 +23,11 @@ const renderResults = (hits) => {
     <div class="hit">
       <div class="hitImageContainer" style="background-image: url('${el.image}')">
       </div>
-      <h2>${el.title}</h2>
-      <div class="time">${el.time}</div>
-      <div class="ingredients">${el.primaryIngredients}</div>
+      <div class="hitBody">
+        <h2>${el.title}</h2>
+        <div class="time">⏰ ${el.time}</div>
+        <div class="ingredients">${el.primaryIngredients.join(', ')}</div>
+      </div>
     </div>
     `
   });
@@ -34,19 +36,35 @@ const renderResults = (hits) => {
 }
 
 const renderFilters = (filters, type) => {
+  let title; 
   let html = '';
   let newArr = [];
-
   let filterNames;
   let filterValues;
 
+  switch(type) {
+    case 'cuisine':
+        title = 'Cuisine';
+        break;
+    case 'mainCarb':
+        title = 'Main carb';
+        break;
+    case 'primaryIngredients':
+        title = 'Ingredients';
+        break;
+    default:
+        title = 'Filter title'
+  }
+
   if(filters === undefined) {
-    html = `<h2>${type}</h2><div>No results</div>`;
+    html = `<h2>${title}</h2><div>No results</div>`;
     return html;
   } else {
     filterNames = Object.keys(filters);
     filterValues = Object.values(filters);
   }
+
+  // console.log(filterNames);
 
   filterNames.forEach((key, index) => {
     newArr.push({
@@ -55,13 +73,15 @@ const renderFilters = (filters, type) => {
     })
   });
 
-  html += `<h2>${type}</h2><ul>`
+  console.log(newArr);
+
+  html += `<h2>${title}</h2><ul>`
 
   const filterHtml = newArr.map(el => {
     return `
       <li class="filter">
-        <label for=${el.filterName}>${el.filterName}</label>
-        <input type="checkbox" id=${el.filterName} class="filterCheckbox" data-filter-type=${type} ${selectedFilters.includes(el.filterName) ? 'checked' : ''}/>
+        <input type="checkbox" id="${el.filterName}" class="filterCheckbox" data-filter-type="${type}" ${selectedFilters.includes(el.filterName) ? 'checked' : ''}/>
+        <label for="${el.filterName}">${el.filterName}</label>
         <span class="count">${el.value}</span>
       </li>
     ` 
@@ -77,7 +97,8 @@ const renderPagination = (pageData) => {
     const numberOfPages = pageData.numPages;
     let html = '';
     for(let i = 0; i < numberOfPages; i++) {
-        html += `<button class="paginationBtn" id=${i}>${i}</button>`
+        const btnActiveClassid = i === page ? 'active' : '';
+        html += `<button class="paginationBtn ${btnActiveClassid}" id=${i}>${i}</button>`
     }
     return html;
 }
