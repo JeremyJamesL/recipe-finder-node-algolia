@@ -19,7 +19,7 @@ app.post('/search', (req, res) => {
         facets: req.body.facets.map(el => {return el}),
         filters: req.body.filters,
         page: req.body.page,
-        hitsPerPage: 10
+        hitsPerPage: 100
     }).then((data) => {
         res.send({
             hits: data.hits,
@@ -53,7 +53,7 @@ app.post('/recipes', (req, res) => {
 })
 
 // Server
-app.listen(3000, () => {
-    console.log('listening on port 3000')
+app.listen(5000, () => {
+    console.log('listening on port 5000')
 })
 

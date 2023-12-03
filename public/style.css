@@ -243,6 +243,11 @@ body {
     padding: 1.5rem 1.5rem 2rem;
 }
 
+.hitBody a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .hitImageContainer {
     background-size: cover;
     background-position: 50%;

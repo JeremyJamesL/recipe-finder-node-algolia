@@ -24,7 +24,9 @@ const renderResults = (hits) => {
       <div class="hitImageContainer" style="background-image: url('${el.image}')">
       </div>
       <div class="hitBody">
-        <h2>${el.title}</h2>
+        <a href="${el.url}">
+          <h2>${el.title}</h2>
+        </a>
         <div class="time">⏰ ${el.time}</div>
         <div class="ingredients">${el.primaryIngredients.join(', ')}</div>
       </div>
@@ -107,7 +109,7 @@ const renderPagination = (pageData) => {
 const handleQuery = async() => { 
 
   //1. Retrieve search response
-  const response = await fetch(`http://localhost:3000/search`, {
+  const response = await fetch(`http://localhost:5000/search`, {
     method: 'POST',
     headers: {
         "Content-type": "application/json"
@@ -201,7 +203,7 @@ const addRecipe = async(e) => {
     image: form.elements[5].value,
     time: form.elements[5].value,
   }
-  const response = await fetch('http://localhost:3000/recipes', {
+  const response = await fetch('http://localhost:5000/recipes', {
     method: "POST", 
     headers: {
       "Content-type": "application/json"
